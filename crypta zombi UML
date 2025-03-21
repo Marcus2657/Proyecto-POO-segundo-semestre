@@ -1,0 +1,287 @@
+@startuml
+' --- Clases del Dominio ---
+class Juego {
+  - titulo: String
+  - descripcion: String
+  + iniciarJuego(): void
+  + terminarJuego(): void
+  + avanzarNivel(): void
+}
+
+class Tablero {
+  - dimensiones: Matriz[20][20]
+  - tipoAmbiente: String
+  + generarTablero(): void
+  + actualizarEstado(): void
+}
+
+class Bosque extends Tablero {
+  + generarVegetacion(): void
+  + generarTrampasNaturales(): void
+}
+
+class Cementerio extends Tablero {
+  + invocarZombies(): void
+  + generarTumbas(): void
+}
+
+class Castillo extends Tablero {
+  + activarMaleficio(): void
+  + generarHabitaciones(): void
+}
+
+class Acertijo {
+  - descripcion: String
+  - dificultad: String
+  + resolver(aciertos: int): boolean
+}
+
+class Trampa {
+  - tipoTrampa: String
+  - daño: int
+  + activar(): void
+}
+
+class HoyoSinFondo extends Trampa {
+  - daño: 9999
+  + activar(): void
+  + eliminarPersonaje(): void
+}
+
+class LaserMortal extends Trampa {
+  - daño: 50
+  + activar(): void
+  + dispararLaser(): void
+}
+
+class PuertaCerrada extends Trampa {
+  - requiereLlave: boolean
+  - acertijoAsociado: Acertijo
+  + activar(): void
+  + desbloquear(): void
+}
+
+' --- Personajes Jugables ---
+abstract class PersonajeJugable {
+  - nombre: String
+  - rango: String
+  - daño: int
+  - movimientoPorTurno: int
+  - posicion: Coordenada
+  + mover(cuadros: int): void
+  + atacar(): void
+  + usarHabilidadEspecial(): void
+}
+
+class CazadorDeZombies {
+  - rango: "Corto"
+  - daño: 15
+  - movimientoPorTurno: 3
+  + dispararEscopeta(): void
+  + colocarTrampa(): void
+}
+
+class MedicoDeCampo {
+  - rango: "Medio"
+  - daño: 5
+  - movimientoPorTurno: 3
+  + curarAliados(): void
+  + revivirPersonaje(): void
+}
+
+class Nigromante {
+  - rango: "Largo"
+  - daño: 10
+  - movimientoPorTurno: 2
+  + invocarEsqueleto(): void
+  + controlarZombie(): void
+}
+
+class CaballeroFantasma {
+  - rango: "Corto"
+  - daño: 20
+  - movimientoPorTurno: 3
+  + ataqueEspada(): void
+  + teletransportarse(): void
+}
+
+class LadronDeTumbas {
+  - rango: "Medio"
+  - daño: 7
+  - movimientoPorTurno: 4
+  + robarObjeto(): void
+  + desactivarTrampa(): void
+}
+
+class BrujaOscura {
+  - rango: "Largo"
+  - daño: 10
+  - movimientoPorTurno: 2
+  + lanzarVeneno(): void
+  + maldecirEnemigo(): void
+}
+
+class ZombieAmistoso {
+  - rango: "Corto"
+  - daño: 5
+  - movimientoPorTurno: 3
+  + atraerZombies(): void
+  + infectarEnemigo(): void
+}
+
+class Explorador {
+  - rango: "Medio"
+  - daño: 5
+  - movimientoPorTurno: 5
+  + movimientoExtra(): void
+  + revelarMapa(): void
+}
+
+class Sacerdote {
+  - rango: "Largo"
+  - daño: 8
+  - movimientoPorTurno: 2
+  + exorcizar(): void
+  + bendecirAliado(): void
+}
+
+class GolemDePiedra {
+  - rango: "Corto"
+  - daño: 25
+  - movimientoPorTurno: 1
+  + ataqueGolpe(): void
+  + bloquearPaso(): void
+}
+
+' --- Enemigos ---
+abstract class Enemigo {
+  - nombre: String
+  - rango: String
+  - daño: int
+  - debilidad: String
+  + usarHabilidad(): void
+}
+
+class ZombieComun {
+  - rango: "Corto"
+  - daño: 5
+  - debilidad: "Movimiento lento"
+  + atacarCortoRango(): void
+}
+
+class ZombieCorredor {
+  - rango: "Corto"
+  - daño: 10
+  - debilidad: "Menos resistencia"
+  + atacarRapido(): void
+}
+
+class EsqueletoArmado {
+  - rango: "Medio"
+  - daño: 10
+  - debilidad: "Vulnerable a ataques cuerpo a cuerpo"
+  + lanzarFlecha(): void
+}
+
+class Fantasma {
+  - rango: "Largo"
+  - daño: 5
+  - debilidad: "Solo dañado con ataques mágicos"
+  + maldecir(): void
+}
+
+class NecromanteEnemigo {
+  - rango: "Largo"
+  - daño: 20
+  - debilidad: "Baja defensa"
+  + invocarMinion(): void
+}
+
+class ReyEspectral {
+  - rango: "Largo"
+  - daño: 50
+  - salud: 200
+  - debilidad: "Ataques mágicos"
+  + invocarGuardianes(): void
+  + usarRayoOscuro(): void
+  + activarMaldiciónFinal(): void
+}
+
+' --- Clases de Sistema ---
+class VentanaJuego {
+  + mostrarTablero(): void
+  + mostrarEstadisticas(): void
+}
+
+class PanelTablero {
+  + actualizarTablero(): void
+}
+
+class PanelEstadisticas {
+  + actualizarEstadisticas(): void
+}
+
+class ControladorTurnos {
+  + procesarTurno(): void
+}
+
+class ControladorAcciones {
+  + realizarAccion(): void
+}
+
+class GestorSonido {
+  + reproducirSonido(): void
+  + detenerSonido(): void
+}
+
+class Animacion {
+  + reproducirAnimacion(): void
+}
+
+class CargadorRecursos {
+  + cargarImagenes(): void
+  + cargarSonidos(): void
+}
+
+class GestorGuardado {
+  + guardarJuego(): void
+  + cargarJuego(): void
+}
+
+' --- Relaciones ---
+Juego --> Tablero
+Tablero --> PersonajeJugable
+Tablero --> Enemigo
+Tablero --> Trampa
+Tablero --> Acertijo
+Tablero <|-- Bosque
+Tablero <|-- Cementerio
+Tablero <|-- Castillo
+Trampa <|-- HoyoSinFondo
+Trampa <|-- LaserMortal
+Trampa <|-- PuertaCerrada
+PuertaCerrada --> Acertijo
+PersonajeJugable <|-- CazadorDeZombies
+PersonajeJugable <|-- MedicoDeCampo
+PersonajeJugable <|-- Nigromante
+PersonajeJugable <|-- CaballeroFantasma
+PersonajeJugable <|-- LadronDeTumbas
+PersonajeJugable <|-- BrujaOscura
+PersonajeJugable <|-- ZombieAmistoso
+PersonajeJugable <|-- Explorador
+PersonajeJugable <|-- Sacerdote
+PersonajeJugable <|-- GolemDePiedra
+Enemigo <|-- ZombieComun
+Enemigo <|-- ZombieCorredor
+Enemigo <|-- EsqueletoArmado
+Enemigo <|-- Fantasma
+Enemigo <|-- NecromanteEnemigo
+Enemigo <|-- ReyEspectral
+VentanaJuego --> PanelTablero
+VentanaJuego --> PanelEstadisticas
+ControladorTurnos --> Tablero
+ControladorAcciones --> PersonajeJugable
+GestorSonido --> Animacion
+Juego --> GestorGuardado
+Juego --> CargadorRecursos
+@enduml
